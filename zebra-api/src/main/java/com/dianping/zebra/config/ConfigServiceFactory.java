@@ -9,7 +9,6 @@ public class ConfigServiceFactory {
 		if (Constants.CONFIG_MANAGER_TYPE_LOCAL.equalsIgnoreCase(configManagerType)) {
 			PropertyConfigService configService = new PropertyConfigService(name);
 			configService.init();
-
 			return configService;
 		} else if (Constants.CONFIG_MANAGER_TYPE_REMOTE.equalsIgnoreCase(configManagerType)) {
 			return RemoteConfigService.getInstance();

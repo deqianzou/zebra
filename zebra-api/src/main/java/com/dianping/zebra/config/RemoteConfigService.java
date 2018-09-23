@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class RemoteConfigService implements ConfigService {
-	
-	private static RemoteConfigService configService;
 
 	private List<PropertyChangeListener> listeners = new CopyOnWriteArrayList<PropertyChangeListener>();
 
@@ -14,16 +12,14 @@ public class RemoteConfigService implements ConfigService {
 	}
 
 	public static RemoteConfigService getInstance() {
-		if (configService == null) {
-			synchronized (RemoteConfigService.class) {
-				if (configService == null) {
-					configService = new RemoteConfigService();
-					configService.init();
-				}
-			}
-		}
+		return ConfigServiceHolder.configService;
+	}
 
-		return configService;
+	private static class ConfigServiceHolder {
+		private static RemoteConfigService configService = new RemoteConfigService();
+		static {
+			ConfigServiceHolder.configService.init();
+		}
 	}
 
 	//TODO customize this method to get config from remote
