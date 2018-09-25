@@ -43,6 +43,8 @@ public class CatFilter extends DefaultJdbcFilter {
 
 	private GroupDataSourceMonitor monitor = null;
 
+	private static final String DEFAULT_NULL_PARAM = "NULL";
+
 	@Override
 	public void init() {
 		if (!Constants.ZEBRA_VERSION.equals(Version.ZEBRA_VERSION)) {
@@ -103,7 +105,6 @@ public class CatFilter extends DefaultJdbcFilter {
 		} catch (SQLException exp) {
 			Cat.logError(exp);
 			t.setStatus(exp);
-
 			throw exp;
 		} finally {
 			try {
@@ -175,6 +176,7 @@ public class CatFilter extends DefaultJdbcFilter {
 	private void logSqlMethodEvent(String sql, List<String> batchedSql, boolean isBatched, Object sqlParams) {
 		String params = Stringizers.forJson().compact().from(sqlParams, CatConstants.MAX_LENGTH,
 				CatConstants.MAX_ITEM_LENGTH);
+		if (params.isEmpty())  params = DEFAULT_NULL_PARAM;
 		if (isBatched) {
 			if (batchedSql != null) {
 				for (String bSql : batchedSql) {

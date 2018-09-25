@@ -33,6 +33,7 @@ public class DefaultFilterManager implements FilterManager {
 		filters.add(filter);
 	}
 
+	@Override
 	public void init() {
 		try {
 			Properties filterProperties = loadFilterConfig();
